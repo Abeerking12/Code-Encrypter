@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FTGM JS Obfuscator</title>
+  <script src="https://cdn.jsdelivr.net/npm/javascript-obfuscator/browser.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f5ff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #ff3c5f;
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 90%;
+      height: 150px;
+      margin-bottom: 15px;
+      padding: 10px;
+      font-family: monospace;
+      font-size: 14px;
+      border: 2px solid #ffb3c1;
+      border-radius: 10px;
+      resize: vertical;
+    }
+
+    button {
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      color: white;
+      padding: 12px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    footer {
+      margin-top: 20px;
+      color: #888;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>FTGM JS Obfuscator Tool</h1>
+
+  <textarea id="input" placeholder="Paste your JavaScript code here..."></textarea><br>
+  <button onclick="obfuscateCode()">Obfuscate Now</button><br><br>
+  <textarea id="output" placeholder="Obfuscated code will appear here..." readonly></textarea>
+
+  <footer>© 2025 FTGM HACKS - Built by YOU 🔐</footer>
+
+  <script>
+    function obfuscateCode() {
+      const code = document.getElementById("input").value.trim();
+      if (!code) {
+        alert("⚠️ Please enter some code first.");
+        return;
+      }
+
+      try {
+        const obfuscated = JavaScriptObfuscator.obfuscate(code, {
+          compact: true,
+          controlFlowFlattening: true,
+          deadCodeInjection: true,
+          stringArray: true,
+          stringArrayEncoding: ['rc4'],
+          selfDefending: true
+        }).getObfuscatedCode();
+
+        document.getElementById("output").value = obfuscated;
+      } catch (e) {
+        alert("❌ Error: " + e.message);
+      }
+    }
+  </script>
+
+</body>
+</html>
