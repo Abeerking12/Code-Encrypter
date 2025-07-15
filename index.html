@@ -1,73 +1,89 @@
-<!DOCTYPE html><html lang="en">
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>FTGM HTML Encrypter</title>
+  <title>FTGM HTML+JS Obfuscator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      background: #f5f7ff;
-      font-family: 'Segoe UI', sans-serif;
-      padding: 20px;
+      background: #f4f7fe;
+      font-family: Arial, sans-serif;
       text-align: center;
-      color: #333;
+      padding: 20px;
     }
     h1 {
-      color: #ff3e5b;
-      margin-bottom: 20px;
+      color: #ff3c5f;
     }
     textarea {
       width: 90%;
-      height: 150px;
-      padding: 15px;
+      height: 160px;
+      padding: 10px;
       font-family: monospace;
-      font-size: 14px;
-      border-radius: 10px;
+      border-radius: 8px;
       border: 1px solid #ccc;
-      margin-bottom: 15px;
+      margin: 10px 0;
     }
     button {
-      background: linear-gradient(to right, #ff3c5f, #ff7a3e);
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
       border: none;
-      padding: 12px 25px;
-      color: #fff;
-      font-weight: bold;
+      color: white;
+      padding: 10px 20px;
+      margin: 10px 5px;
       border-radius: 25px;
       cursor: pointer;
-      margin: 10px;
-    }
-    button:hover {
-      opacity: 0.9;
     }
     .output {
+      margin-top: 20px;
       background: #fff;
       border: 1px solid #ddd;
       padding: 15px;
       border-radius: 10px;
-      margin-top: 20px;
-      width: 90%;
       word-break: break-word;
+      white-space: pre-wrap;
     }
   </style>
 </head>
 <body>
-  <h1>🔐 FTGM HTML Encrypter</h1>  <textarea id="inputCode" placeholder="Paste your HTML code here..."></textarea><br><button onclick="encryptCode()">Encrypt Code</button> <button onclick="copyEncrypted()">Copy Encrypted</button>
+  <h1>🔐 FTGM HTML + JS Obfuscator</h1>
+  <textarea id="inputCode" placeholder="Paste your HTML + JavaScript here..."></textarea>
+  <br>
+  <button onclick="obfuscateCode()">Obfuscate Code</button>
+  <button onclick="copyOutput()">Copy Output</button>
 
-  <div class="output" id="output"></div>  <script>
-    function encryptCode() {
+  <div class="output" id="output"></div>
+
+  <script src="javascript-obfuscator.min.js"></script>
+  <script>
+    function obfuscateCode() {
       const input = document.getElementById("inputCode").value;
-      if (!input.trim()) return alert("Please paste some HTML code.");
+      if (!input.trim()) {
+        alert("Please paste your HTML+JS code.");
+        return;
+      }
 
-      const encoded = btoa(unescape(encodeURIComponent(input)));
-      const output = `<script>document.write(decodeURIComponent(escape(atob('${encoded}'))));</script>`;document.getElementById("output").innerText = output;
-}
+      const scriptRegex = /<script>([\s\S]*?)<\/script>/g;
+      let result = input;
+      let match;
 
-function copyEncrypted() {
-  const output = document.getElementById("output").innerText;
-  navigator.clipboard.writeText(output).then(() => {
-    alert("Encrypted code copied to clipboard!");
-  });
-}
+      while ((match = scriptRegex.exec(input)) !== null) {
+        const jsCode = match[1];
+        const obfuscatedJs = JavaScriptObfuscator.obfuscate(jsCode, {
+          compact: true,
+          controlFlowFlattening: true
+        }).getObfuscatedCode();
+        result = result.replace(match[0], `<script>${obfuscatedJs}<\/script>`);
+      }
 
+      document.getElementById("output").textContent = result;
+    }
+
+    function copyOutput() {
+      const output = document.getElementById("output").textContent;
+      navigator.clipboard.writeText(output).then(() => {
+        alert("Obfuscated code copied!");
+      });
+    }
   </script>
 </body>
 </html>
