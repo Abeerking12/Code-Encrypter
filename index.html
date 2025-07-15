@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <title>FTGM Obfuscator</title>
 
-  <!-- ✅ Load JS Obfuscator Library -->
-  <script src="https://cdn.jsdelivr.net/npm/javascript-obfuscator/browser.js"></script>
+  <!-- ✅ Alternate CDN -->
+  <script src="https://unpkg.com/javascript-obfuscator@4.0.0/browser.js"></script>
 
   <style>
     body {
@@ -36,7 +36,7 @@
 </head>
 <body>
 
-  <h1>🛡️ FTGM JS Obfuscator Tool</h1>
+  <h1>FTGM JS Obfuscator Tool</h1>
 
   <textarea id="input" placeholder="Paste your JavaScript code here..."></textarea><br>
   <button onclick="obfuscateCode()">Obfuscate Now</button><br><br>
@@ -47,7 +47,7 @@
       const code = document.getElementById("input").value;
 
       if (!window.JavaScriptObfuscator) {
-        alert("❌ Obfuscator library load nahi hui! Internet check karo.");
+        alert("❌ Obfuscator library load nahi hui! Internet ya CDN block ho raha hai.");
         return;
       }
 
